@@ -14,6 +14,7 @@ pipeline{
         IMAGE_RECOMMENDATIONSERVICE = "recommendationservice"
 
          CLUSTER_NAME = "cluster-2"
+        ZONE = "us-central1-c"
         GOOGLE_APPLICATION_CREDENTIALS = credentials('gcp')
         DEPLOY_YAML = "release/kubernetes-manifests.yaml"
 

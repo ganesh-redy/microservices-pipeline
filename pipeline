@@ -3,15 +3,15 @@ pipeline{
     environment{
         IMAGE_FRONTEND= "frontend" 
         IMAGE_ADSERVICE =   "adservice"
-        IMAGE_CHECKOUTSERVICE =  "checkout-service"
-        IMAGE_EMAILSERVICE  = "email-service"
+        IMAGE_CHECKOUTSERVICE =  "checkoutservice"
+        IMAGE_EMAILSERVICE  = "emailservice"
         IMAGE_LOADGENERATOR   = "loadgenerator"
-        IMAGE_PRODUCTCATALOGSERVICE = "product-cat-log"
-        IMAGE_SHIPPINGSERVICE = "shipping-service"
+        IMAGE_PRODUCTCATALOGSERVICE = "productcatlog"
+        IMAGE_SHIPPINGSERVICE = "shippingservice"
         IMAGE_CARTSERVICE = "cart-service"
-        IMAGE_CURRENCYSERVICE  = "currency-service"
-        IMAGE_PAYMENTSERVICE  = "payment-service"
-        IMAGE_RECOMMENDATIONSERVICE = "recommendation-ser"
+        IMAGE_CURRENCYSERVICE  = "currencyservice"
+        IMAGE_PAYMENTSERVICE  = "paymentservice"
+        IMAGE_RECOMMENDATIONSERVICE = "recommendationser"
 
          CLUSTER_NAME = "cluster-2"
         GOOGLE_APPLICATION_CREDENTIALS = credentials('gcp')

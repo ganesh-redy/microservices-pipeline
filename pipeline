@@ -8,7 +8,7 @@ pipeline{
         IMAGE_LOADGENERATOR   = "loadgenerator"
         IMAGE_PRODUCTCATALOGSERVICE = "productcatlog"
         IMAGE_SHIPPINGSERVICE = "shippingservice"
-        IMAGE_CARTSERVICE = "cart-service"
+        IMAGE_CARTSERVICE = "cartservice"
         IMAGE_CURRENCYSERVICE  = "currencyservice"
         IMAGE_PAYMENTSERVICE  = "paymentservice"
         IMAGE_RECOMMENDATIONSERVICE = "recommendationser"

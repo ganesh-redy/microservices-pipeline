@@ -1,0 +1,234 @@
+pipeline{
+    agent any
+    environment{
+        IMAGE_FRONTEND= "frontend" 
+        IMAGE_ADSERVICE =   "adservice"
+        IMAGE_CHECKOUTSERVICE =  "checkout-service"
+        IMAGE_EMAILSERVICE  = "email-service"
+        IMAGE_LOADGENERATOR   = "loadgenerator"
+        IMAGE_PRODUCTCATALOGSERVICE = "product-cat-log"
+        IMAGE_SHIPPINGSERVICE = "shipping-service"
+        IMAGE_CARTSERVICE = "cart-service"
+        IMAGE_CURRENCYSERVICE  = "currency-service"
+        IMAGE_PAYMENTSERVICE  = "payment-service"
+        IMAGE_RECOMMENDATIONSERVICE = "recommendation-ser"
+
+         CLUSTER_NAME = "cluster-2"
+        GOOGLE_APPLICATION_CREDENTIALS = credentials('gcp')
+        DEPLOY_YAML = "release/kubernetes-manifests.yaml"
+
+
+
+    }
+    stages{
+        stage("Docker Hub Connection") {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'docker-hub', 
+                                                  usernameVariable: 'DOCKER_USER', 
+                                                  passwordVariable: 'DOCKER_PASS')]) {
+                    sh '''
+                    echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+                    '''
+                }
+            }
+        }
+
+        stage("Google Cloud Login") {
+            steps {
+                sh '''
+                gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS
+                gcloud auth configure-docker us-central1-docker.pkg.dev
+                '''
+            }
+        }
+        
+        stage ( "paralle stage to build docker images"){
+            paralle {
+                stage ("Build Frontend"){
+                    steps {
+                        sh """
+                        docker build -t ganesh6498/${IMAGE_FRONTEND}:${BUILD_NUMBER} src/frontend/
+                        docker push ganesh6498/${IMAGE_FRONTEND}:${BUILD_NUMBER}
+
+                        
+                        sed -i 's|image: ganesh6498/${IMAGE_FRONTEND}:.*|image: ganesh6498/${IMAGE_FRONTEND}:${BUILD_NUMBER}|' ${DEPLOY_YAML}
+
+                         """
+                    }
+                }
+                stage ("Build ADSERVICE"){
+                    steps {
+                        sh """
+                        docker build -t ganesh6498/${IMAGE_ADSERVICE}:${BUILD_NUMBER}  src/adservice/
+                        docker push ganesh6498/${IMAGE_ADSERVICE}:${BUILD_NUMBER}
+
+                        sed -i 's|image: ganesh6498/${IMAGE_ADSERVICE}:.*|image: ganesh6498/${IMAGE_ADSERVICE}:${BUILD_NUMBER}|' ${DEPLOY_YAML}
+
+                        
+                         """
+                    }
+                }
+
+                stage ("Build CHECKOUTSERVICE"){
+                    steps {
+                        sh """
+                        docker build -t ganesh6498/${IMAGE_CHECKOUTSERVICE}:${BUILD_NUMBER}  src/checkoutservice/
+                        docker push ganesh6498/${IMAGE_CHECKOUTSERVICE}:${BUILD_NUMBER}
+                        sed -i 's|image: ganesh6498/${IMAGE_CHECKOUTSERVICE}:.*|image: ganesh6498/${IMAGE_CHECKOUTSERVICE}:${BUILD_NUMBER}|' ${DEPLOY_YAML}
+
+                        
+                        
+                         """
+                    }
+                }
+                stage ("Build EMAILSERVICE"){
+                    steps {
+                        sh """
+                        docker build -t ganesh6498/${IMAGE_EMAILSERVICE}:${BUILD_NUMBER}  src/emailservice/
+                        docker push ganesh6498/${IMAGE_EMAILSERVICE}:${BUILD_NUMBER}
+                        sed -i 's|image: ganesh6498/${IMAGE_EMAILSERVICE}:.*|image: ganesh6498/${IMAGE_EMAILSERVICE}:${BUILD_NUMBER}|' ${DEPLOY_YAML}
+
+                        """
+                    }
+                }
+
+                stage ("Build LOADGENERATOR"){
+                    steps {
+                        sh """
+                        docker build -t ganesh6498/${IMAGE_LOADGENERATOR}:${BUILD_NUMBER}  src/loadgenrator/
+                        docker push ganesh6498/${IMAGE_LOADGENERATOR}:${BUILD_NUMBER}
+
+                        sed -i 's|image: ganesh6498/${IMAGE_LOADGENERATOR}:.*|image: ganesh6498/${IMAGE_LOADGENERATOR}:${BUILD_NUMBER}|' ${DEPLOY_YAML}
+
+                        
+                         """
+                    }
+                }
+                stage ("Build PRODUCTCATALOGSERVICE"){
+                    steps {
+                        sh """
+                        docker build -t ganesh6498/${IMAGE_PRODUCTCATALOGSERVICE}:${BUILD_NUMBER}  src/productcatalogservice/
+                        docker push ganesh6498/${IMAGE_PRODUCTCATALOGSERVICE}:${BUILD_NUMBER}
+
+                        sed -i 's|image: ganesh6498/${IMAGE_PRODUCTCATALOGSERVICE}:.*|image: ganesh6498/${IMAGE_PRODUCTCATALOGSERVICE}:${BUILD_NUMBER}|' ${DEPLOY_YAML}
+
+                        
+                         """
+                    }
+                }
+                stage ("Build SHIPPINGSERVICE"){
+                    steps {
+                        sh """
+                        docker build -t ganesh6498/${IMAGE_SHIPPINGSERVICE}:${BUILD_NUMBER}  src/shippgservice/
+                        docker push ganesh6498/${IMAGE_SHIPPINGSERVICE}:${BUILD_NUMBER}
+                        sed -i 's|image: ganesh6498/${IMAGE_SHIPPINGSERVICE}:.*|image: ganesh6498/${IMAGE_SHIPPINGSERVICE}:${BUILD_NUMBER}|' ${DEPLOY_YAML}
+
+
+                        
+                        
+                         """
+                    }
+                }
+                stage ("Build CARTSERVICE"){
+                        steps {
+                            sh """
+                            docker build -t ganesh6498/${IMAGE_CARTSERVICE}:${BUILD_NUMBER}  src/cartservice/src
+                            docker push ganesh6498/${IMAGE_CARTSERVICE}:${BUILD_NUMBER}
+                            sed -i 's|image: ganesh6498/${IMAGE_CARTSERVICE}:.*|image: ganesh6498/${IMAGE_CARTSERVICE}:${BUILD_NUMBER}|' ${DEPLOY_YAML}/
+
+                            
+                            
+                            """
+                        }
+                    }
+                stage ("Build CURRENCYSERVICE  "){
+                    steps {
+                        sh """
+                        docker build -t ganesh6498/${IMAGE_CURRENCYSERVICE}:${BUILD_NUMBER}  src/currencyservice/
+                        docker push ganesh6498/${IMAGE_CURRENCYSERVICE}:${BUILD_NUMBER}
+                        sed -i 's|image: ganesh6498/${IMAGE_CURRENCYSERVICE}:.*|image: ganesh6498/${IMAGE_CURRENCYSERVICE}:${BUILD_NUMBER}|' ${DEPLOY_YAML}
+
+
+                        
+                        
+                         """
+                    }
+                }
+                stage ("Build PAYMENTSERVICE"){
+                    steps {
+                        sh """
+                        docker build -t ganesh6498/${IMAGE_PAYMENTSERVICE}:${BUILD_NUMBER}  src/paymentservice/
+                        docker push ganesh6498/${IMAGE_PAYMENTSERVICE}:${BUILD_NUMBER}
+                        sed -i 's|image: ganesh6498/${IMAGE_PAYMENTSERVICE}:.*|image: ganesh6498/${IMAGE_PAYMENTSERVICE}:${BUILD_NUMBER}|' ${DEPLOY_YAML}
+
+
+                        
+                        
+                         """
+                    }
+                }
+                stage ("Build RECOMMENDATIONSERVICE"){
+                    steps {
+                        sh """
+                        docker build -t ganesh6498/${IMAGE_RECOMMENDATIONSERVICE}:${BUILD_NUMBER}  src/recommendtionservice/
+                        docker push ganesh6498/${IMAGE_RECOMMENDATIONSERVICE}:${BUILD_NUMBER}
+                        sed -i 's|image: ganesh6498/${IMAGE_RECOMMENDATIONSERVICE}:.*|image: ganesh6498/${IMAGE_RECOMMENDATIONSERVICE}:${BUILD_NUMBER}|' ${DEPLOY_YAML}
+
+
+                        
+                        
+                         """
+                    }
+                }
+
+
+            }
+        }
+        stage (" build cluster"){
+            steps{
+                sh """ 
+                        terraform init
+                        terraform plan
+                        terraform apply --auto-apply
+    
+
+                """
+            }
+        }
+        stage (" connect the gcp cluter"){
+            steps{
+                sh """
+
+                 sleep 10
+                gcloud container clusters get-credentials $CLUSTER_NAME --zone $ZONE --project sam-453310
+                
+                 """
+
+            }
+        }
+        stage("deploy application ") {
+            steps {
+                sh ''' 
+                sleep 10
+
+                kubectl apply -f ${DEPLOY_YAML}
+                ''' 
+            }
+        }
+        stage (" Get svc"){
+            steps{
+                sh """ 
+                sleep 50
+                    kubectl get svc 
+                """
+            }
+        }
+
+
+
+
+
+    }
+
+
+}

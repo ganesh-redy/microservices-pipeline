@@ -7,11 +7,11 @@ pipeline{
         IMAGE_EMAILSERVICE  = "emailservice"
         IMAGE_LOADGENERATOR   = "loadgenerator"
         IMAGE_PRODUCTCATALOGSERVICE = "productcatlog"
-        IMAGE_SHIPPINGSERVICE = "shippingservice"
+        IMAGE_SHIPPINGSERVICE = "shippingservice" 
         IMAGE_CARTSERVICE = "cartservice"
         IMAGE_CURRENCYSERVICE  = "currencyservice"
         IMAGE_PAYMENTSERVICE  = "paymentservice"
-        IMAGE_RECOMMENDATIONSERVICE = "recommendationser"
+        IMAGE_RECOMMENDATIONSERVICE = "recommendationservice"
 
          CLUSTER_NAME = "cluster-2"
         GOOGLE_APPLICATION_CREDENTIALS = credentials('gcp')
@@ -95,7 +95,7 @@ pipeline{
                 stage ("Build LOADGENERATOR"){
                     steps {
                         sh """
-                        docker build -t ganesh6498/${IMAGE_LOADGENERATOR}:${BUILD_NUMBER}  src/loadgenrator/
+                        docker build -t ganesh6498/${IMAGE_LOADGENERATOR}:${BUILD_NUMBER}  src/loadgenerator/
                         docker push ganesh6498/${IMAGE_LOADGENERATOR}:${BUILD_NUMBER}
 
                         sed -i 's|image: ganesh6498/${IMAGE_LOADGENERATOR}:.*|image: ganesh6498/${IMAGE_LOADGENERATOR}:${BUILD_NUMBER}|' ${DEPLOY_YAML}
@@ -119,7 +119,7 @@ pipeline{
                 stage ("Build SHIPPINGSERVICE"){
                     steps {
                         sh """
-                        docker build -t ganesh6498/${IMAGE_SHIPPINGSERVICE}:${BUILD_NUMBER}  src/shippgservice/
+                        docker build -t ganesh6498/${IMAGE_SHIPPINGSERVICE}:${BUILD_NUMBER}  src/shippingservice/
                         docker push ganesh6498/${IMAGE_SHIPPINGSERVICE}:${BUILD_NUMBER}
                         sed -i 's|image: ganesh6498/${IMAGE_SHIPPINGSERVICE}:.*|image: ganesh6498/${IMAGE_SHIPPINGSERVICE}:${BUILD_NUMBER}|' ${DEPLOY_YAML}
 
@@ -134,7 +134,7 @@ pipeline{
                             sh """
                             docker build -t ganesh6498/${IMAGE_CARTSERVICE}:${BUILD_NUMBER}  src/cartservice/src
                             docker push ganesh6498/${IMAGE_CARTSERVICE}:${BUILD_NUMBER}
-                            sed -i 's|image: ganesh6498/${IMAGE_CARTSERVICE}:.*|image: ganesh6498/${IMAGE_CARTSERVICE}:${BUILD_NUMBER}|' ${DEPLOY_YAML}/
+                            sed -i 's|image: ganesh6498/${IMAGE_CARTSERVICE}:.*|image: ganesh6498/${IMAGE_CARTSERVICE}:${BUILD_NUMBER}|' ${DEPLOY_YAML}
 
                             
                             
@@ -170,7 +170,7 @@ pipeline{
                 stage ("Build RECOMMENDATIONSERVICE"){
                     steps {
                         sh """
-                        docker build -t ganesh6498/${IMAGE_RECOMMENDATIONSERVICE}:${BUILD_NUMBER}  src/recommendtionservice/
+                        docker build -t ganesh6498/${IMAGE_RECOMMENDATIONSERVICE}:${BUILD_NUMBER}  src/recommendationservice/
                         docker push ganesh6498/${IMAGE_RECOMMENDATIONSERVICE}:${BUILD_NUMBER}
                         sed -i 's|image: ganesh6498/${IMAGE_RECOMMENDATIONSERVICE}:.*|image: ganesh6498/${IMAGE_RECOMMENDATIONSERVICE}:${BUILD_NUMBER}|' ${DEPLOY_YAML}
 

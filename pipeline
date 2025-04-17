@@ -43,7 +43,7 @@ pipeline{
         }
         
         stage ( "paralle stage to build docker images"){
-            paralle {
+            parallel {
                 stage ("Build Frontend"){
                     steps {
                         sh """
